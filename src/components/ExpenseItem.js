@@ -1,39 +1,26 @@
-import React, { useContext } from 'react';
-import { TiDelete } from 'react-icons/ti';
-import { AppContext } from '../context/AppContext';
+import React, { useContext, useEffect } from "react";
+import { AppContext } from "../context/AppContext";
 
-const ExpenseItem = (props) => {
-    const { dispatch } = useContext(AppContext);
+const ExpenseTotal = () => {
+  const { expenses, Currency, budget } = useContext(AppContext);
 
-    const handleDeleteExpense = () => {
-        dispatch({
-            type: 'DELETE_EXPENSE',
-            payload: props.id,
-        });
-    };
+  const totalExpenses = expenses.reduce((total, item) => {
+    return (total += item.cost);
+  }, 0);
 
-    const increaseAllocation = (name) => {
-        const expense = {
-            name: name,
-            cost: 10,
-        };
-
-        dispatch({
-            type: 'ADD_EXPENSE',
-            payload: expense
-        });
-
+  useEffect(() => {
+    if (totalExpenses > budget) {
+      alert("You cannot reduce the budget value lower than the spending!");
     }
+  }, [totalExpenses, budget]);
 
-    return (
-        <tr>
-        <td>{props.name}</td>
-        <td>£{props.cost}</td>
-        <td><button onClick={event=> increaseAllocation(props.name)}>+</button></td>
-        <td><TiDelete size='1.5em' onClick={handleDeleteExpense}></TiDelete></td>
-        </tr>
-    );
+  return (
+    <div className="alert alert-primary">
+      <span>
+        Spent so far: {Currency} {totalExpenses}
+      </span>
+    </div>
+  );
 };
 
-export default ExpenseItem;
-
+export default ExpenseTotal;
