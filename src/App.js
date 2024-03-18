@@ -10,6 +10,7 @@ import Remaining from './components/Remaining';
 import ExpenseTotal from './components/ExpenseTotal';
 import ExpenseList from './components/ExpenseList';
 import AllocationForm from './components/AllocationForm';
+import currency from './components/currency';
 
 
 import { AppProvider } from './context/AppContext';
@@ -58,8 +59,13 @@ const App = () => {
                            <div className='col-sm'>
                            <AllocationForm/>
                        </div> /* Add AllocationForm component here under */
-                        }        
-
+                        } 
+                        {
+                           <div className='col-sm'>
+                           <currency/>
+                       </div> 
+                        }   
+                               
                 </div>
             </div>
         </AppProvider>
