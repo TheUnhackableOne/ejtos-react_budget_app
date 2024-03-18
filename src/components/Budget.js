@@ -1,19 +1,50 @@
-import React, { useContext, useState } from 'react';
-import { AppContext } from '../context/AppContext';
+// import React, { useContext } from 'react';
+// import { AppContext } from '../context/AppContext';
+// const Budget = () => {
+//     const { budget } = useContext(AppContext);
+//     return (
+//         <div className='alert alert-secondary'>
+//             <span>Budget: £{budget}</span>
+//         </div>
+//     );
+// };
+// export default Budget;
+
+
+
+import React, { useContext, useState } from "react";
+import { AppContext } from "../context/AppContext";
 
 const Budget = () => {
-    const { budget } = useContext(AppContext);
-    const [newBudget, setNewBudget] = useState(budget);
-    const handleBudgetChange = (event) => {
-        setNewBudget(event.target.value);
+  const { dispatch, Currency } = useContext(AppContext);
+  const [budget, setBudget] = useState("");
+
+  const handleBudgetChange = (event) => {
+    console.log("new budget:", event.target.value);
+    setBudget(parseInt(event.target.value));
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.keyCode === 13) {
+      console.log("enter key pressed");
+      dispatch({ type: "SET_BUDGET", payload: budget });
     }
-    return (
-<div className='alert alert-secondary'>
-<span>Budget: £{budget}</span>
-<input type="number" step="10" value={newBudget} onChange={handleBudgetChange}></input>
-</div>
-    );
+  };
+
+  return (
+    <div className="alert alert-secondary">
+      <label htmlFor="cost">Budget: {Currency}</label>
+      <input
+        required
+        type="number"
+        id="cost"
+        value={budget}
+        style={{ marginLeft: "2rem", width: "10rem" }}
+        onChange={handleBudgetChange}
+        onKeyDown={handleKeyDown}
+      />
+    </div>
+  );
 };
+
 export default Budget;
-
-
